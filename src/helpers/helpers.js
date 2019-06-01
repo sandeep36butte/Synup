@@ -15,9 +15,9 @@ export const getMonth = (month) => {
     }
 }
 
-export const getDay = (date) {
-    const date = new Date(date);
-    switch(date){
+export const getDay = (date) => {
+    const dateDay = new Date(date);
+    switch(dateDay){
         case 0: return "Sunday"
         case 1: return "Monday"
         case 2: return "Tuesday"
