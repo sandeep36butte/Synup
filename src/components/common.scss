@@ -1,11 +1,11 @@
 .calendar_container{
     .Calendar{
-        display: flex;
+    display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    width: 800px;
+    width: 1000px;
+    height: 540px;
     position: fixed;
     left: 300px;
     border: 1px solid;
@@ -25,6 +25,23 @@
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
+        width: 100%;
+        .month_table{
+            width: 100%;
+            border-collapse: collapse;
+            thead{
+                border-bottom: 1px solid black;
+            }
+            tr{
+                height: 80px;
+            }
+            tr:not(:last-child){
+                border-bottom: 1px solid black;
+                td:not(:last-child){
+                    border-right: 1px solid black;
+                }
+            }
+        }
         }
         li{
             width: 13%

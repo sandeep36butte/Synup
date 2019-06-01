@@ -11,7 +11,7 @@ export class Calendar extends Component {
             this.date = 1;
     }
     getDates = (firstDayMonth, NoOfDays) => {
-        debugger;
+        //debugger;
         const items = [];
         for (let i=0; i<6; i++){
             items.push(
@@ -23,7 +23,7 @@ export class Calendar extends Component {
         return items;
     }
     getDateColoumn = (i, firstDayMonth, NoOfDays) => {
-        debugger;
+        //debugger;
         let today = new Date();
         let days = [];
         for (let j=0; j<7; j++){
@@ -76,7 +76,7 @@ export class Calendar extends Component {
     }
     renderCalendar = () => {
         const {currentDate} = this.state;
-        debugger;
+        //debugger;
         let NoOfDays = this.getDaysInaMonth(currentDate.getFullYear(), currentDate.getMonth()+1);
         let firstDayMonth = mapDateDay(currentDate.getFullYear(), currentDate.getMonth(), 1);
         console.log(firstDayMonth);
@@ -95,7 +95,7 @@ export class Calendar extends Component {
                     <button onClick={() => this.handleMonth("Next")}>NextMonth</button>
                 </div>
                 <ul className="days_container">
-                    <table>
+                    <table className="month_table">
                         <thead>
                             <th>Sun</th>
                             <th>Mon</th>
