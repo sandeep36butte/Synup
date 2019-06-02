@@ -31,19 +31,36 @@ export class Calendar extends Component {
         eventDetails.length > 0 && eventDetails.map(val => {
             events.push(
                 <div className="label_details">
-                    <p>{val.eventName}<button className="edit_event">E</button><button className="Delete_event">D</button></p>
+                    <p>{val.eventName}
+                        <button className="edit_event" onClick={()=>this.handleEditEvents(val)}>E</button>
+                        <button className="Delete_event" onClick={() => this.handleDeleteEvents(val)}>D</button>
+                    </p>
                 </div>
             )
         })
         return events;
     }
 
-    handleEditEvents = () =>{
+    handleEditEvents = (eventDetail) =>{
+        console.log(eventDetail);
+        let allEvents = JSON.parse(localStorage.getItem("eventList"));
 
     }
 
-    handleDeleteEvents = () => {
-        
+    handleDeleteEvents = (eventDetail) => {
+        console.log(eventDetail);
+        let allEvents = JSON.parse(localStorage.getItem("eventList"));
+        debugger;
+        allEvents.map((val, index) => {
+            if (val.eventName === eventDetail.eventName && val.eventDesc === eventDetail.eventDesc && val.eventTime === eventDetail.eventTime && val.hours === eventDetail.hours && val.minutes === eventDetail.minutes){
+                allEvents.splice(index, 1);
+            }
+        })
+        localStorage.setItem("eventList", JSON.stringify(allEvents));
+        this.date = 1;
+        this.setState({
+            eventList: JSON.parse(localStorage.getItem("eventList"))
+        })
     }
 
     getDateColoumn = (i, firstDayMonth, NoOfDays) => {
