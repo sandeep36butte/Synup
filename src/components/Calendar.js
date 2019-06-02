@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {getMonth, getDay, mapDateDay} from "../helpers/helpers";
 import "./common.scss";
 import AddEvent from "./AddEvent";
+import EditEvent from "./EditEvent";
 
 export class Calendar extends Component {
     constructor(props){
@@ -9,7 +10,8 @@ export class Calendar extends Component {
             this.state = {
                 currentDate: new Date(),
                 showAddEventModal: false,
-                eventList: JSON.parse(localStorage.getItem("eventList"))
+                showEditEventModal: false,
+                eventList: JSON.parse(localStorage.getItem("eventList")),
             }
             this.date = 1;
     }
@@ -43,8 +45,12 @@ export class Calendar extends Component {
 
     handleEditEvents = (eventDetail) =>{
         console.log(eventDetail);
-        let allEvents = JSON.parse(localStorage.getItem("eventList"));
-
+        this.date = 1;
+        this.setState({
+            showEditEventModal: true,
+            editEventDetails: eventDetail,
+            _editEventDetails: eventDetail
+        })
     }
 
     handleDeleteEvents = (eventDetail) => {
@@ -63,6 +69,28 @@ export class Calendar extends Component {
         })
     }
 
+    handleEditEventsButton = () => {
+        const {eventName, eventDesc, hours, minutes, currentDate, _editEventDetails} = this.state;
+        let existingEventList = JSON.parse(localStorage.getItem("eventList"));
+        let newEvent = {
+            eventName,
+            eventDesc,
+            eventTime: `${_editEventDetails.eventTime}`,
+            hours,
+            minutes
+        }
+        existingEventList.map((val, index) => {
+            if (val.eventName === _editEventDetails.eventName && val.eventDesc === _editEventDetails.eventDesc && val.eventTime === _editEventDetails.eventTime && val.hours === _editEventDetails.hours && val.minutes === _editEventDetails.minutes){
+                existingEventList.splice(index, 1, newEvent);
+            }
+        })
+        localStorage.setItem("eventList", JSON.stringify(existingEventList));
+        this.date = 1;
+        this.setState({
+            eventList: JSON.parse(localStorage.getItem("eventList")),
+            showEditEventModal: false
+        })
+    }
     getDateColoumn = (i, firstDayMonth, NoOfDays) => {
         let today = new Date();
         let {currentDate} = this.state;
@@ -139,19 +167,30 @@ export class Calendar extends Component {
         })
     }
 
-    handleCancelButton = () => {
+    handleCancelButton = (action) => {
         this.date = 1;
-        this.setState(() =>{
-            return{
-                showAddEventModal: false
-            }
-        })
+        if (action.toLowerCase() === "add"){
+            this.setState(() =>{
+                return{
+                    showAddEventModal: false
+                }
+            })
+        }else {
+            this.setState(() =>{
+                return{
+                    showEditEventModal: false
+                }
+            })
+        }
     }
 
     handleOnChange = (event) => {
         this.date = 1;
         this.setState({
-            [event.target.name]: event.target.value
+            [event.target.name]: event.target.value,
+            editEventDetails: {
+                [event.target.name]: event.target.value
+            }
         })
     }
 
@@ -221,11 +260,12 @@ export class Calendar extends Component {
         })
     }
     render() {
-        const {showAddEventModal} = this.state;
+        const {showAddEventModal, showEditEventModal, editEventDetails} = this.state;
         return (
             <div className="calendar_container">
                 {this.renderCalendar()}
                 {showAddEventModal && <AddEvent handleCancelButton={this.handleCancelButton} handleAddEventButton={this.handleAddEventButton} handleOnChange={this.handleOnChange}/>}
+                {showEditEventModal && <EditEvent handleEditEvents={this.handleEditEventsButton} editEventDetails={editEventDetails} handleOnChange={this.handleOnChange} handleCancelButton={this.handleCancelButton}></EditEvent>}
             </div>
         )
     }

@@ -22,7 +22,7 @@ const AddEvent = ({handleCancelButton, handleAddEventButton, handleOnChange}) =>
             </div>
             <div className="event_buttons">
                 <button onClick={handleAddEventButton}>Add event</button>
-                <button onClick={handleCancelButton}>cancel</button>
+                <button onClick={() => handleCancelButton("Add")}>cancel</button>
             </div>
         </div>
     )
