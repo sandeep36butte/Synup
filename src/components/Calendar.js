@@ -49,7 +49,11 @@ export class Calendar extends Component {
         this.setState({
             showEditEventModal: true,
             editEventDetails: eventDetail,
-            _editEventDetails: eventDetail
+            _editEventDetails: eventDetail,
+            eventName: eventDetail.eventName,
+            eventDesc: eventDetail.eventDesc,
+            hours: eventDetail.hours,
+            minutes: eventDetail.minutes,
         })
     }
 
@@ -79,7 +83,7 @@ export class Calendar extends Component {
             hours,
             minutes
         }
-        existingEventList.map((val, index) => {
+        newEvent && existingEventList.map((val, index) => {
             if (val.eventName === _editEventDetails.eventName && val.eventDesc === _editEventDetails.eventDesc && val.eventTime === _editEventDetails.eventTime && val.hours === _editEventDetails.hours && val.minutes === _editEventDetails.minutes){
                 existingEventList.splice(index, 1, newEvent);
             }
@@ -204,7 +208,7 @@ export class Calendar extends Component {
             hours,
             minutes
         }
-        existingEventList.push(newEvent)
+        newEvent && existingEventList.push(newEvent)
         localStorage.setItem("eventList", JSON.stringify(existingEventList));
         this.date = 1;
         this.setState({
@@ -255,7 +259,11 @@ export class Calendar extends Component {
         this.setState(prevState => {
             return{
                 showAddEventModal: !prevState.showAddEventModal,
-                selectedDate: selectedDate
+                selectedDate: selectedDate,
+                eventName: null,
+                eventDesc: null,
+                hours: null,
+                minutes: null,
             }
         })
     }
