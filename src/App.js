@@ -14,6 +14,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <Calendar currentDate={currentDate}/>
+        <footer>Note: Hover on to Events to Edit Events</footer>
       </div>
     );
   }
